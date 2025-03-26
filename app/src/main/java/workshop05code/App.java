@@ -74,16 +74,24 @@ public class App {
             String guess = scanner.nextLine();
 
             while (!guess.equals("q")) {
-                System.out.println("You've guessed '" + guess+"'.");
-
-                if (wordleDatabaseConnection.isValidWord(guess)) { 
-                    System.out.println("Success! It is in the the list.\n");
+                if(guess.length() != 4){
+                    System.out.print("The text inputted is not four characters long, enter a 4 letter word: ");
+                    guess = scanner.nextLine();
+                }else if(!guess.matches("[a-z]+")){
+                    System.out.print("The text inputted is contains non alphabetic characters, enter a 4 letter word: ");
+                    guess = scanner.nextLine();
                 }else{
-                    System.out.println("Sorry. This word is NOT in the the list.\n");
-                }
+                    System.out.println("You've guessed '" + guess+"'.");
 
-                System.out.print("Enter a 4 letter word for a guess or q to quit: " );
-                guess = scanner.nextLine();
+                    if (wordleDatabaseConnection.isValidWord(guess)) { 
+                        System.out.println("Success! It is in the the list.\n");
+                    }else{
+                        System.out.println("Sorry. This word is NOT in the the list.\n");
+                    }
+
+                    System.out.print("Enter a 4 letter word for a guess or q to quit: " );
+                    guess = scanner.nextLine();
+                }
             }
         } catch (NoSuchElementException | IllegalStateException e) {
             e.printStackTrace();
