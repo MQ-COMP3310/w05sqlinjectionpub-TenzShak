@@ -23,7 +23,7 @@ public class App {
         try {// resources\logging.properties
             LogManager.getLogManager().readConfiguration(new FileInputStream("resources/logging.properties"));
         } catch (SecurityException | IOException e1) {
-            e1.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to load logging.properties", e1);
         }
     }
 
@@ -62,9 +62,8 @@ public class App {
             }
 
         } catch (IOException e) {
-            System.out.println("Not able to load . Sorry!");
-            System.out.println(e.getMessage());
-            return;
+            logger.log(Level.SEVERE, "Failed to load words from data.txt", e);
+            System.out.println("Not able to load. Sorry!");
         }
 
         // let's get them to enter a word
@@ -75,6 +74,7 @@ public class App {
 
             while (!guess.equals("q")) {
                 if(guess.length() != 4){
+                    logger.log(Level.WARNING, "Invalid " + guess + " recorded");
                     System.out.print("The text inputted is not four characters long, enter a 4 letter word: ");
                     guess = scanner.nextLine();
                 }else if(!guess.matches("[a-z]+")){
@@ -84,8 +84,10 @@ public class App {
                     System.out.println("You've guessed '" + guess+"'.");
 
                     if (wordleDatabaseConnection.isValidWord(guess)) { 
+                        logger.log(Level.SEVERE, "Valid word " + guess + " read from the data db");
                         System.out.println("Success! It is in the the list.\n");
                     }else{
+                        logger.log(Level.SEVERE, "Invalid word " + guess + " read from the data db");
                         System.out.println("Sorry. This word is NOT in the the list.\n");
                     }
 
@@ -94,7 +96,7 @@ public class App {
                 }
             }
         } catch (NoSuchElementException | IllegalStateException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Unexpected input error", e);
         }
 
     }
