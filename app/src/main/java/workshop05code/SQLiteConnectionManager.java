@@ -24,7 +24,7 @@ public class SQLiteConnectionManager {
         try {// resources\logging.properties
             LogManager.getLogManager().readConfiguration(new FileInputStream("resources/logging.properties"));
         } catch (SecurityException | IOException e1) {
-            e1.printStackTrace();
+            logger.log(Level.SEVERE, "Unexpected input error", e);
         }
     }
 
@@ -64,12 +64,12 @@ public class SQLiteConnectionManager {
         try (Connection conn = DriverManager.getConnection(databaseURL)) {
             if (conn != null) {
                 DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("The driver name is " + meta.getDriverName());
-                System.out.println("A new database has been created.");
+                logger.log(Level.INFO, "The driver name is " + meta.getDriverName());
+                logger.log(Level.INFO, "A new database has been created.");
 
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.log(Level.SEVERE, "Unexpected input error", e);
         }
     }
 
@@ -88,7 +88,7 @@ public class SQLiteConnectionManager {
                     return true;
                 }
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                logger.log(Level.SEVERE, "Unexpected input error", e);
                 return false;
             }
         }
@@ -113,7 +113,7 @@ public class SQLiteConnectionManager {
                 return true;
 
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                logger.log(Level.SEVERE, "Unexpected input error", e);
                 return false;
             }
         }
@@ -135,7 +135,7 @@ public class SQLiteConnectionManager {
                     pstmt.setString(2, word);
                     pstmt.executeUpdate();
                 } catch (SQLException e) {
-                    System.out.println(e.getMessage());
+                    logger.log(Level.SEVERE, "Unexpected input error", e);
                 }
 
     }
@@ -162,7 +162,7 @@ public class SQLiteConnectionManager {
                 return false;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.log(Level.SEVERE, "Unexpected input error", e);
             return false;
         }
 
