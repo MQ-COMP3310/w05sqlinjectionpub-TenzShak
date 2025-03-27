@@ -1,5 +1,6 @@
 package workshop05code;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -8,15 +9,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-//Import for logging exercise
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 public class SQLiteConnectionManager {
+    private static final Logger logger = Logger.getLogger(SQLiteConnectionManager.class.getName());
     //Start code logging exercise
     static {
         // must set before the Logger
@@ -24,11 +22,10 @@ public class SQLiteConnectionManager {
         try {// resources\logging.properties
             LogManager.getLogManager().readConfiguration(new FileInputStream("resources/logging.properties"));
         } catch (SecurityException | IOException e1) {
-            logger.log(Level.SEVERE, "Unexpected input error", e);
+            logger.log(Level.SEVERE, "Unexpected input error", e1);
         }
     }
 
-    private static final Logger logger = Logger.getLogger(SQLiteConnectionManager.class.getName());
     //End code logging exercise
     
     private String databaseURL = "";
